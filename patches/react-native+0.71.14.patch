@@ -1,0 +1,17 @@
+diff --git a/node_modules/react-native/Libraries/Lists/FlatList.js b/node_modules/react-native/Libraries/Lists/FlatList.js
+index 9b280f2..00e513d 100644
+--- a/node_modules/react-native/Libraries/Lists/FlatList.js
++++ b/node_modules/react-native/Libraries/Lists/FlatList.js
+@@ -548,11 +548,7 @@ class FlatList<ItemT> extends React.PureComponent<Props<ItemT>, void> {
+           'array with 1-%s columns; instead, received a single item.',
+         numColumns,
+       );
+-      return items
+-        .map((item, kk) =>
+-          keyExtractor(((item: $FlowFixMe): ItemT), index * numColumns + kk),
+-        )
+-        .join(':');
++      return `row-index-${index}`;
+     }
+ 
+     // $FlowFixMe[incompatible-call] Can't call keyExtractor with an array
