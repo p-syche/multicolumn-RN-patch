@@ -66,7 +66,7 @@ export const MultiColumnList = () => {
   return (
     <FlatList
       data={listData}
-      // numColumns={3}
+      numColumns={3}
       renderItem={_renderItem}
       keyExtractor={(item) => item.id}
     />
