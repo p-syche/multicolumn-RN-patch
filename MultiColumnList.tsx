@@ -6,6 +6,7 @@ import {
   Text,
   Image,
   TouchableOpacity,
+  Pressable,
 } from "react-native";
 import { largeData } from "./data";
 
@@ -17,29 +18,62 @@ type ItemProps = {
 };
 
 const Item = ({ title, itemId, removeItem, imageUrl }: ItemProps) => {
-  React.useEffect(() => {
-    console.log("Item mounted, item id:", itemId);
-  }, []);
+  const [isPressed, setIsPressed] = React.useState(false);
+
+  // React.useEffect(() => {
+  //   console.log("Item mounted, item id:", itemId);
+  // }, []);
 
   const removeThisItem = () => {
     removeItem(itemId);
   };
 
   return (
-    <View style={styles.item}>
-      <Text style={styles.title}>{title}</Text>
-      {imageUrl ? (
-        <Image
-          style={{ width: "100%", height: "50%" }}
-          source={{ uri: imageUrl }}
-        />
+    <View
+      style={[styles.item, { backgroundColor: isPressed ? "blue" : "red" }]}
+    >
+      <Pressable
+        style={styles.chooseButton}
+        onPress={React.useCallback(() => setIsPressed(!isPressed), [isPressed])}
+      >
+        <Text>Press to choose item # {itemId}</Text>
+      </Pressable>
+      {isPressed ? (
+        <View>
+          {/* <Pressable style={[styles.item2]} onPress={removeThisItem}>
+            <Text>Press to delete</Text>
+          </Pressable> */}
+          <TouchableOpacity
+            onPress={removeThisItem}
+            style={styles.removeButton}
+          >
+            <Text>Press to delete item!</Text>
+          </TouchableOpacity>
+        </View>
       ) : null}
-
-      <TouchableOpacity onPress={removeThisItem} style={styles.removeButton}>
-        <Text>Press to delete item!</Text>
-      </TouchableOpacity>
     </View>
   );
+
+  // return (
+  //   <View
+  //     style={(styles.item, { backgroundColor: isPressed ? "blue" : "red" })}
+  //   >
+  //     <Text style={styles.title}>{title}</Text>
+  //     {imageUrl ? (
+  //       <Image
+  //         style={{ width: "100%", height: "50%" }}
+  //         source={{ uri: imageUrl }}
+  //       />
+  //     ) : null}
+
+  //     <Pressable
+  //       onPress={React.useCallback(() => setIsPressed(!isPressed), [isPressed])}
+  //       style={styles.removeButton}
+  //     >
+  //       <Text>Press to delete item!</Text>
+  //     </Pressable>
+  //   </View>
+  // );
 };
 
 export const MultiColumnList = () => {
@@ -49,6 +83,8 @@ export const MultiColumnList = () => {
     const filteredData = listData.filter(
       (item: { id: string }) => item.id !== itemKey
     );
+    console.log("is this happening?");
+
     updateListData(filteredData);
   };
 
@@ -76,14 +112,19 @@ export const MultiColumnList = () => {
 const styles = StyleSheet.create({
   item: {
     backgroundColor: "#bada55",
-    padding: 20,
+    padding: 5,
     marginVertical: 8,
-    marginHorizontal: 16,
-    width: "33%",
+    marginHorizontal: 3,
+    width: "30%",
     height: 200,
   },
   title: {
     fontSize: 16,
+  },
+  chooseButton: {
+    borderColor: "#000",
+    borderWidth: 4,
+    backgroundColor: "#fff",
   },
   removeButton: {
     borderColor: "#bada55",
