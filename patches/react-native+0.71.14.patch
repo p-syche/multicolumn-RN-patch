@@ -1,5 +1,5 @@
 diff --git a/node_modules/react-native/Libraries/Lists/FlatList.js b/node_modules/react-native/Libraries/Lists/FlatList.js
-index 9b280f2..85f65e7 100644
+index 9b280f2..71485dc 100644
 --- a/node_modules/react-native/Libraries/Lists/FlatList.js
 +++ b/node_modules/react-native/Libraries/Lists/FlatList.js
 @@ -548,11 +548,7 @@ class FlatList<ItemT> extends React.PureComponent<Props<ItemT>, void> {
@@ -15,21 +15,21 @@ index 9b280f2..85f65e7 100644
      }
  
      // $FlowFixMe[incompatible-call] Can't call keyExtractor with an array
-@@ -625,14 +621,16 @@ class FlatList<ItemT> extends React.PureComponent<Props<ItemT>, void> {
+@@ -625,7 +621,8 @@ class FlatList<ItemT> extends React.PureComponent<Props<ItemT>, void> {
  
      const renderProp = (info: RenderItemProps<ItemT>) => {
        if (cols > 1) {
 -        const {item, index} = info;
-+        const keyExtractor = this.props.keyExtractor ?? defaultKeyExtractor;
 +        const { item, index } = info;
++        const keyExtractor = this.props.keyExtractor ?? defaultKeyExtractor;
          invariant(
            Array.isArray(item),
-            'Expected array of items with numColumns > 1',
-         );
+           'Expected array of items with numColumns > 1',
+@@ -633,6 +630,7 @@ class FlatList<ItemT> extends React.PureComponent<Props<ItemT>, void> {
          return (
            <View style={StyleSheet.compose(styles.row, columnWrapperStyle)}>
              {item.map((it, kk) => {
-+              const key = keyExtractor(item, index * cols + kk);
++              const key = keyExtractor(it, index * cols + kk);
                const element = render({
                  // $FlowFixMe[incompatible-call]
                  item: it,

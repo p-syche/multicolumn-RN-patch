@@ -15,14 +15,15 @@ type ItemProps = {
   itemId: number;
   removeItem: (itemKey: any) => void;
   imageUrl?: string;
+  key: any
 };
 
-const Item = ({ title, itemId, removeItem, imageUrl }: ItemProps) => {
+const Item = ({ title, itemId, removeItem, imageUrl, key }: ItemProps) => {
   const [isPressed, setIsPressed] = React.useState(false);
 
-  // React.useEffect(() => {
-  //   console.log("Item mounted, item id:", itemId);
-  // }, []);
+  React.useEffect(() => {
+    console.log("Item mounted, item id:", itemId);
+  }, []);
 
   const removeThisItem = () => {
     removeItem(itemId);
@@ -36,13 +37,10 @@ const Item = ({ title, itemId, removeItem, imageUrl }: ItemProps) => {
         style={styles.chooseButton}
         onPress={React.useCallback(() => setIsPressed(!isPressed), [isPressed])}
       >
-        <Text>Press to choose item # {itemId}</Text>
+        <Text>Press to choose item # {itemId}{key}</Text>
       </Pressable>
       {isPressed ? (
         <View>
-          {/* <Pressable style={[styles.item2]} onPress={removeThisItem}>
-            <Text>Press to delete</Text>
-          </Pressable> */}
           <TouchableOpacity
             onPress={removeThisItem}
             style={styles.removeButton}
@@ -53,28 +51,9 @@ const Item = ({ title, itemId, removeItem, imageUrl }: ItemProps) => {
       ) : null}
     </View>
   );
-
-  // return (
-  //   <View
-  //     style={(styles.item, { backgroundColor: isPressed ? "blue" : "red" })}
-  //   >
-  //     <Text style={styles.title}>{title}</Text>
-  //     {imageUrl ? (
-  //       <Image
-  //         style={{ width: "100%", height: "50%" }}
-  //         source={{ uri: imageUrl }}
-  //       />
-  //     ) : null}
-
-  //     <Pressable
-  //       onPress={React.useCallback(() => setIsPressed(!isPressed), [isPressed])}
-  //       style={styles.removeButton}
-  //     >
-  //       <Text>Press to delete item!</Text>
-  //     </Pressable>
-  //   </View>
-  // );
 };
+
+
 
 export const MultiColumnList = () => {
   const [listData, updateListData] = React.useState(largeData);
